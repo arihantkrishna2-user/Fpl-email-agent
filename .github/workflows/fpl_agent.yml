@@ -1,0 +1,21 @@
+name: FPL Email Agent
+on:
+  schedule:
+    - cron: '0 * * * *' # Runs at the top of every hour to catch the 6-hour deadline window
+  workflow_dispatch:    # Adds a manual "Run workflow" button for instant testing
+
+jobs:
+  run-agent:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests google-genai
+      - env:
+          FPL_TEAM_ID: ${{ secrets.FPL_TEAM_ID }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: python agent.py
