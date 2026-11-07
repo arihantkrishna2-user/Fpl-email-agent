@@ -24,12 +24,11 @@ if not next_gw:
 
 deadline = datetime.fromisoformat(next_gw["deadline_time"].replace("Z", "+00:00"))
 hours_until_deadline = (deadline - datetime.now(timezone.utc)).total_seconds() / 3600
-#
-#
+
 # Comment out the next 3 lines when running a manual test!
 # if not (5.5 <= hours_until_deadline <= 6.5):
-    print(f"Not 6 hours before deadline yet ({hours_until_deadline:.1f}h remaining). Exiting.")
-    exit()
+# print(f"Not 6 hours before deadline yet ({hours_until_deadline:.1f}h remaining). Exiting.")
+# exit()
 
 current_gw = next(e["id"] for e in events if e["is_current"])
 
@@ -105,7 +104,7 @@ Format cleanly using clear headings, bullet points, and tables for easy reading 
 """
 
 client = genai.Client(api_key=GEMINI_KEY)
-response = client.models.generate_content(model="gemini-3.8-flash", contents=prompt)
+response = client.models.generate_content(model="gemini-2.5-flash", contents=prompt)
 
 # 7. Send Briefing via Gmail
 msg = EmailMessage()
